@@ -16,6 +16,9 @@ private:
 public:
 	Mesh(const std::vector<Tile>& spaceTemplate, const int x, const int y);
 	~Mesh();
+
+	void solve(bool verbose);
+	bool step(bool verbose);
 };
 
 #endif
