@@ -1,0 +1,63 @@
+stages:
+  - build
+
+build_centos_stream8:
+  stage: build
+  image: containers.orion-os.eu/rpmbuilder:centos-stream8
+  script:
+    - mkdir build
+    - cd build
+    - cmake ../
+    - make 
+
+  artifacts:
+    paths:
+      - build/ssudoku
+    expire_in: 1 week
+
+debug_centos_stream8:
+  stage: build
+  image: containers.orion-os.eu/rpmbuilder:centos-stream8
+  script:
+    - mkdir build
+    - cd build
+    - cmake ../ -DCMAKE_BUILD_TYPE=Debug
+    - make 
+
+  artifacts:
+    paths:
+      - build/ssudoku
+    expire_in: 1 week
+
+
+build_fedora37:
+  stage: build
+  image: containers.orion-os.eu/rpmbuilder:fedora37
+  script:
+    - mkdir build
+    - cd build
+    - cmake ../
+    - make
+
+  artifacts:
+    paths:
+      - build/ssudoku
+    expire_in: 1 week
+
+debug_fedora37:
+  stage: build
+  image: containers.orion-os.eu/rpmbuilder:fedora37
+  script:
+    - mkdir build
+    - cd build
+    - cmake ../ -DCMAKE_BUILD_TYPE=Debug
+    - make
+
+  artifacts:
+    paths:
+      - build/ssudoku
+    expire_in: 1 week
+
+
+ 
+   
