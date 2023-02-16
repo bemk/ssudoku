@@ -15,7 +15,8 @@ class Tile {
 private:
 	std::string typeName;
 	std::vector<TileRule> rules;
-	std::tuple<size_t, size_t> location = {0,0};
+	size_t x = 0;
+	size_t y = 0;
 
 	Mesh* mesh;
 public:

@@ -26,13 +26,16 @@ void TileSpace::print(std::stringstream& stream)
 	if (selectionMade()) {
 		stream << " * ";
 	} else {
-		stream << " X ";
+		stream << (char)('a' + y);
+		stream << " ";
+		stream << x;
 	}
 }
 
 void TileSpace::setLocation(size_t x, size_t y)
 {
-	this->location = {x, y};
+	this->x = x;
+	this->y = y;
 	for (Tile& t : options) {
 		t.setLocation(x, y);
 	}

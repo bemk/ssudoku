@@ -15,11 +15,12 @@ Mesh::Mesh(const std::vector<Tile>& spaceTemplate, const int x, const int y) :
 			TileSpace(spaceTemplate, this)));
 
 	size_t i = 0, j = 0;
-	for (auto row : mesh) {
-		for (auto column : row) {
+	for (auto& row : mesh) {
+		for (auto& column : row) {
 			column.setLocation(i, j);
 			j++;
 		}
+		j = 0;
 		i++;
 	}
 }

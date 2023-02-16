@@ -20,7 +20,8 @@ bool Tile::checkValidity()
 
 void Tile::setLocation(size_t x, size_t y)
 {
-	location = {x,y};
+	this->x = x;
+	this->y = y;
 }
 
 
