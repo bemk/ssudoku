@@ -1,9 +1,10 @@
 
 #include "Tile.h"
 
-Tile::Tile(std::string typeName, std::vector<TileRule>& rules) : 
+Tile::Tile(std::string typeName, std::vector<TileRule>& rules, Mesh* mesh) : 
 	typeName(typeName),
-	rules(rules)
+	rules(rules),
+	mesh(mesh)
 {
 }
 
@@ -15,6 +16,11 @@ void Tile::toText(std::stringstream& stream)
 bool Tile::checkValidity()
 {
 	return true;
+}
+
+void Tile::setLocation(size_t x, size_t y)
+{
+	location = {x,y};
 }
 
 

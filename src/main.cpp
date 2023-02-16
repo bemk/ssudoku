@@ -5,11 +5,12 @@
 
 #include "Mesh.h"
 
-int main(int argc __attribute__((unused)), char** argv __attribute__((unused)))
+int main(int argc, char** argv)
 {
 	bool verbose = false;
 	bool stepped = false;
 	bool configured = false;
+	bool interactive __attribute__((unused)) = false;
 	int opt = -1;
 
 	do  {
@@ -25,6 +26,9 @@ int main(int argc __attribute__((unused)), char** argv __attribute__((unused)))
 			verbose = true;
 			break;
 		case 'h':
+			break;
+		case 'i':
+			interactive = true;
 			break;
 		default:
 			break;
