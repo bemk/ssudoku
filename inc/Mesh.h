@@ -24,6 +24,12 @@ public:
 
 	bool solve(bool verbose);
 	bool step(bool verbose);
+
+	std::vector<TileSpace> getRow(size_t x);
+	std::vector<TileSpace> getColumn(size_t y);
+	std::vector<std::vector<TileSpace>> getConnectEight(size_t x, size_t y);
+
+	TileSpace getTile(size_t x, size_t y);
 };
 
 #endif

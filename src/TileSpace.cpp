@@ -9,6 +9,16 @@ TileSpace::TileSpace(const std::vector<Tile>& possibilities, Mesh* mesh) :
 
 void TileSpace::applyRules()
 {
+	std::vector<Tile> newSet;
+	for (Tile t : options) {
+		if (t.checkValidity()) {
+			newSet.push_back(t);
+		}
+	}
+	options = newSet;
+	if (options.size() == 1) {
+		markSelected();
+	}
 }
 
 bool TileSpace::selectionMade()
@@ -39,4 +49,9 @@ void TileSpace::setLocation(size_t x, size_t y)
 	for (Tile& t : options) {
 		t.setLocation(x, y);
 	}
+}
+
+Tile TileSpace::getTile()
+{
+	return options[0];
 }

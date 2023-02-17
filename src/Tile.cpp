@@ -1,7 +1,7 @@
 
 #include "Tile.h"
 
-Tile::Tile(std::string typeName, std::vector<TileRule>& rules, Mesh* mesh) : 
+Tile::Tile(std::string typeName, std::vector<Rules::TileRule*>& rules, Mesh* mesh) : 
 	typeName(typeName),
 	rules(rules),
 	mesh(mesh)

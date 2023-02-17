@@ -27,6 +27,7 @@ public:
 	void applyRules();
 	void print(std::stringstream& stream);
 	void setLocation(size_t x, size_t y);
+	Tile getTile();
 };
 
 #endif

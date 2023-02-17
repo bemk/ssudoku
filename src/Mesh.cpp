@@ -74,3 +74,69 @@ bool Mesh::step(bool verbose)
 		print();
 	return true;
 }
+
+
+std::vector<TileSpace> Mesh::getRow(size_t x)
+{
+	return mesh[x];
+}
+
+std::vector<TileSpace> Mesh::getColumn(size_t y)
+{
+	std::vector<TileSpace> returnVector;
+
+	for (std::vector<TileSpace> i : mesh) {
+		returnVector.push_back(i[y]);
+	}
+
+	return returnVector;
+}
+
+std::vector<std::vector<TileSpace>> Mesh::getConnectEight(size_t x, size_t y)
+{
+	std::vector<std::vector<TileSpace>> returnVector;
+	
+	std::vector<TileSpace> vec1;
+	std::vector<TileSpace> vec2;
+	std::vector<TileSpace> vec3;
+
+	if (x > 0) {
+		if (y > 0) {
+			vec1.push_back(getTile(x-1, y-1));
+		}
+		vec1.push_back(getTile(x-1, y));
+		if (y < this->y) {
+			vec1.push_back(getTile(x-1, y+1));
+		}
+		returnVector.push_back(vec1);
+	}
+
+	if (y > 0) {
+		vec2.push_back(getTile(x, y-1));
+	}
+	vec2.push_back(getTile(x, y));
+	if (y < this->y) {
+		vec2.push_back(getTile(x, y+1));
+	}
+	returnVector.push_back(vec2);
+	
+	if (x < this->x) {
+		if (y > 0) {
+			vec3.push_back(getTile(x+1, y-1));
+		}
+		vec3.push_back(getTile(x+1, y));
+		if (y < this->y) {
+			vec3.push_back(getTile(x+1, y+1));
+		}
+		returnVector.push_back(vec3);
+	}
+
+	return returnVector;
+}
+
+
+TileSpace Mesh::getTile(size_t x, size_t y)
+{
+	return mesh[x][y];
+}
+

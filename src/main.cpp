@@ -4,6 +4,8 @@
 #include <unistd.h>
 
 #include "Mesh.h"
+#include "Rules/SudokuRules.h"
+
 
 int main(int argc, char** argv)
 {
