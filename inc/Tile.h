@@ -29,6 +29,8 @@ public:
 	bool checkValidity();
 
 	void setLocation(size_t x, size_t y);
+
+	bool equals(Tile& tile);
 };
 
 #endif

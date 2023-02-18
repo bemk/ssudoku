@@ -38,7 +38,7 @@ void TileSpace::print(std::stringstream& stream)
 	} else {
 		stream << (char)('a' + y);
 		stream << " ";
-		stream << x;
+		stream << x+1;
 	}
 }
 

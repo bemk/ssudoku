@@ -24,4 +24,8 @@ void Tile::setLocation(size_t x, size_t y)
 	this->y = y;
 }
 
+bool Tile::equals(Tile& tile)
+{
+	return (typeName.compare(tile.typeName) == 0);
+}
 
