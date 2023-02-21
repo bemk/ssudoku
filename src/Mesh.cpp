@@ -3,10 +3,11 @@
 #include <iostream>
 #include <sstream>
 
-Mesh::Mesh(const std::vector<Tile>& spaceTemplate, const int x, const int y) : 
+Mesh::Mesh(const std::vector<Tile>& spaceTemplate, const int x, const int y, std::mt19937& generator) : 
 	spaceTemplate(spaceTemplate),
 	x(x), 
-	y(y)
+	y(y),
+	generator(generator)
 {
 	mesh = std::vector<std::vector<TileSpace>>(
 		x, 
@@ -63,18 +64,76 @@ void Mesh::print()
 
 bool Mesh::solve(bool verbose)
 {
-	if (verbose)
-		std::cout << "Solving all in one go!\n";
-	return step(verbose);
+	bool unsolved = step(verbose);
+	
+	/*
+	std::stringstream stream;
+	for (auto row : mesh) {
+		for (TileSpace s : row) {
+			s.printFull(stream);
+		}
+	}
+	std::cout << stream.str();
+	*/
+	if (unsolved) {
+		return solve(verbose);
+	}
+	return true;
 }
 
 bool Mesh::step(bool verbose)
 {
-	if (verbose) 
+	bool tilesEliminated = false;
+	for (auto& row : mesh) {
+		for (TileSpace& t : row) {
+			if (t.selectionMade()) {
+				continue;
+			}
+			if (t.applyRules()) {
+				tilesEliminated = true;
+			}
+		}
+	}
+
+	if (!tilesEliminated) {
+		std::vector<TileSpace*> unsolved;
+		auto row = mesh.begin();
+		while (row != mesh.end()) {
+			auto column = row->begin();
+			while (column != row->end()) {
+				if (!column->selectionMade()) {
+					unsolved.push_back(&(*column));
+				}
+				column++;
+			}
+			row++;
+		}
+
+		if (unsolved.size() == 0) {
+			if (verbose) {
+				print();
+			}
+			return false;
+		}
+		std::uniform_int_distribution<> tileSelector(0, unsolved.size());
+		const size_t selectedTileIndex = tileSelector(generator);
+		TileSpace* selectedTile = unsolved[selectedTileIndex];
+
+		std::tuple<size_t, size_t> tileLocation = selectedTile->getLocation();
+		std::cout << "Randomly setting position ";
+		std::cout << (char)('a' + std::get<1>(tileLocation));
+		std::cout << ",";
+		std::cout << std::get<0>(tileLocation);
+		std::cout << "\n";
+
+		selectedTile->makeRandomSelection(generator);
+	}
+
+	if (verbose) {
 		print();
+	}
 	return true;
 }
-
 
 std::vector<TileSpace> Mesh::getRow(size_t x)
 {
@@ -140,3 +199,7 @@ TileSpace Mesh::getTile(size_t x, size_t y)
 	return mesh[x][y];
 }
 
+bool Mesh::setTile(size_t x, size_t y, Tile& tile)
+{
+	return mesh[x][y].makeSelection(tile);
+}

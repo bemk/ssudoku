@@ -1,10 +1,9 @@
 
 #include "Tile.h"
 
-Tile::Tile(std::string typeName, std::vector<Rules::TileRule*>& rules, Mesh* mesh) : 
+Tile::Tile(std::string typeName, std::vector<Rules::TileRule*>& rules) : 
 	typeName(typeName),
-	rules(rules),
-	mesh(mesh)
+	rules(rules)
 {
 }
 
@@ -29,3 +28,7 @@ bool Tile::equals(Tile& tile)
 	return (typeName.compare(tile.typeName) == 0);
 }
 
+void Tile::setMesh(Mesh* mesh)
+{
+	this->mesh = mesh;
+}

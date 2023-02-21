@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <cstddef>
+#include <random>
 
 #include "TileSpace.h"
 
@@ -16,10 +17,12 @@ private:
 	const std::vector<Tile> spaceTemplate;
 	const size_t x;
 	const size_t y;
+	std::mt19937& generator;
 
 	void print();
+	bool setTile(size_t x, size_t y, Tile& tile);
 public:
-	Mesh(const std::vector<Tile>& spaceTemplate, const int x, const int y);
+	Mesh(const std::vector<Tile>& spaceTemplate, const int x, const int y, std::mt19937& generator);
 	~Mesh();
 
 	bool solve(bool verbose);

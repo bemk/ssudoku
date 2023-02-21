@@ -22,10 +22,11 @@ private:
 	size_t x = 0;
 	size_t y = 0;
 
-	Mesh* mesh;
+	Mesh* mesh = nullptr;
 public:
-	Tile(std::string typeName, std::vector<Rules::TileRule*>& rules, Mesh* mesh);
+	Tile(std::string typeName, std::vector<Rules::TileRule*>& rules);
 	void toText(std::stringstream& stream);
+	void setMesh(Mesh* mesh);
 	bool checkValidity();
 
 	void setLocation(size_t x, size_t y);
