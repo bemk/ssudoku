@@ -1,12 +1,13 @@
 
 #include "TileSpace.h"
 #include "random"
+#include <iostream>
 
 TileSpace::TileSpace(const std::vector<Tile>& possibilities, Mesh* mesh) :
 	options(possibilities),
 	mesh(mesh)
 {
-	for (Tile t : options)
+	for (Tile& t : options)
 	{
 		t.setMesh(mesh);
 	}
@@ -34,7 +35,8 @@ bool TileSpace::applyRules()
 	if (options.size() == 1) {
 		markSelected();
 	} else if (options.size() == 0) {
-		throw "Grid unsolvable!";
+		std::cerr << "Grid unsolvable!\n";
+		exit(-1);
 	}
 	return success;
 }
@@ -56,9 +58,12 @@ void TileSpace::print(std::stringstream& stream)
 		options[0].toText(stream);
 		stream << " ";
 	} else {
+		/*
 		stream << (char)('a' + y);
 		stream << " ";
 		stream << x+1;
+		*/
+		stream << "   ";
 	}
 }
 

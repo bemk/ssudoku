@@ -68,7 +68,10 @@ int main(int argc, char** argv)
 	}
 
 	if (stepped) {
-		while (!mesh.step(verbose));
+		while (mesh.step(verbose))
+		{
+			std::cin.get();
+		}
 	} else {
 		mesh.solve(verbose);
 	}

@@ -123,7 +123,7 @@ bool Mesh::step(bool verbose)
 		std::cout << "Randomly setting position ";
 		std::cout << (char)('a' + std::get<1>(tileLocation));
 		std::cout << ",";
-		std::cout << std::get<0>(tileLocation);
+		std::cout << std::get<0>(tileLocation) + 1;
 		std::cout << "\n";
 
 		selectedTile->makeRandomSelection(generator);
@@ -137,18 +137,22 @@ bool Mesh::step(bool verbose)
 
 std::vector<TileSpace> Mesh::getRow(size_t x)
 {
-	return mesh[x];
+	std::vector<TileSpace> row;
+	for (size_t i = 0; i < y; i++) {
+		row.push_back(getTile(x, i));
+	}
+	return row;
 }
 
 std::vector<TileSpace> Mesh::getColumn(size_t y)
 {
-	std::vector<TileSpace> returnVector;
+	std::vector<TileSpace> column;
 
-	for (std::vector<TileSpace> i : mesh) {
-		returnVector.push_back(i[y]);
+	for (size_t i = 0; i < x; i++) {
+		column.push_back(getTile(i, y));
 	}
 
-	return returnVector;
+	return column;
 }
 
 std::vector<std::vector<TileSpace>> Mesh::getConnectEight(size_t x, size_t y)
