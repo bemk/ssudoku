@@ -1,5 +1,6 @@
 
 #include "Rules/SudokuRules.h"
+#include "Mesh.h"
 
 #include <iostream>
 #include <sstream>

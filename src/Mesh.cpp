@@ -1,8 +1,10 @@
 
-#include "Mesh.h"
+
 #include <iostream>
 #include <sstream>
 #include <algorithm>
+
+#include "Mesh.h"
 
 Mesh::Mesh(const std::vector<Tile>& spaceTemplate, const int x, const int y, std::mt19937& generator) : 
 	spaceTemplate(spaceTemplate),

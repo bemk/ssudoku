@@ -2,8 +2,7 @@
 #ifndef TILE_RULE_H
 #define TILE_RULE_H
 
-#include "Mesh.h"
-#include "Tile.h"
+#include <cstddef>
 
 class Mesh;
 class Tile;

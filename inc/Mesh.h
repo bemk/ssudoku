@@ -8,9 +8,6 @@
 
 #include "TileSpace.h"
 
-class TileSpace;
-class Tile;
-
 class Mesh {
 private:
 	std::vector<std::vector<TileSpace>> mesh;

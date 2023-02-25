@@ -1,6 +1,6 @@
 
-#include "Tile.h"
 #include <iostream>
+#include "Mesh.h"
 
 Tile::Tile(std::string typeName, std::vector<Rules::TileRule*>& rules) : 
 	typeName(typeName),

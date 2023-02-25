@@ -5,10 +5,8 @@
 #include <vector>
 #include <tuple>
 #include "Tile.h"
-#include "Mesh.h"
 
 class Mesh;
-class Tile;
 
 enum TileSolveState {
 	NOTHING_TO_SOLVE,

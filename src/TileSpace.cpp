@@ -1,7 +1,8 @@
 
-#include "TileSpace.h"
 #include "random"
 #include <iostream>
+
+#include "Mesh.h"
 
 TileSpace::TileSpace(const std::vector<Tile>& possibilities) :
 	options(possibilities)

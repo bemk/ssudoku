@@ -7,7 +7,6 @@
 #include <tuple>
 
 #include "Rules/TileRule.h"
-#include "Mesh.h"
 
 class Mesh;
 
