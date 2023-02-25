@@ -68,7 +68,9 @@ int main(int argc, char** argv)
 	}
 
 	if (stepped) {
-		while (mesh.step(verbose))
+		bool solvable = false;
+		bool ambiguous = false;
+		while (mesh.step(verbose, solvable, ambiguous))
 		{
 			std::cin.get();
 		}

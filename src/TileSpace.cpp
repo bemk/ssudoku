@@ -3,42 +3,42 @@
 #include "random"
 #include <iostream>
 
-TileSpace::TileSpace(const std::vector<Tile>& possibilities, Mesh* mesh) :
-	options(possibilities),
-	mesh(mesh)
+TileSpace::TileSpace(const std::vector<Tile>& possibilities) :
+	options(possibilities)
 {
-	for (Tile& t : options)
-	{
-		t.setMesh(mesh);
-	}
 }
 
-bool TileSpace::applyRules()
+enum TileSolveState TileSpace::applyRules(Mesh& mesh)
 {
 	if (selectionMade()) {
-		return true;
+		return ALL_SOLVED;
 	}
-	bool success = false;
 	std::vector<Tile> newSet;
 
+	enum TileSolveState solved = NOTHING_TO_SOLVE;
+
 	for (Tile t : options) {
-		if (t.checkValidity()) {
+		if (t.checkValidity(mesh)) {
 			newSet.push_back(t);
 		}
 	}
 
 	if (newSet.size() < options.size()) {
-		success = true;
+		solved = TILES_SOLVED;
+	}
+
+	if (newSet.size() == 1) {
+		markSelected();
+		solved = ALL_SOLVED;
+	} else if (newSet.size() == 0) {
+		std::cerr << "Grid unsolvable!\n";
+		std::cerr << "[" << (char)('a'+y) << x+1 << "]\n";
+		mesh.print();
+		return UNSOLVABLE;
 	}
 
 	options = newSet;
-	if (options.size() == 1) {
-		markSelected();
-	} else if (options.size() == 0) {
-		std::cerr << "Grid unsolvable!\n";
-		exit(-1);
-	}
-	return success;
+	return solved;
 }
 
 bool TileSpace::selectionMade()

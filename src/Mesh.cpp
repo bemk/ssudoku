@@ -10,10 +10,8 @@ Mesh::Mesh(const std::vector<Tile>& spaceTemplate, const int x, const int y, std
 	generator(generator)
 {
 	mesh = std::vector<std::vector<TileSpace>>(
-		x, 
-		std::vector<TileSpace>(
-			y, 
-			TileSpace(spaceTemplate, this)));
+		x,
+		std::vector<TileSpace>(y, TileSpace(spaceTemplate)));
 
 	size_t i = 0, j = 0;
 	for (auto& row : mesh) {
@@ -64,75 +62,96 @@ void Mesh::print()
 
 bool Mesh::solve(bool verbose)
 {
-	bool unsolved = step(verbose);
-	
-	/*
-	std::stringstream stream;
-	for (auto row : mesh) {
-		for (TileSpace s : row) {
-			s.printFull(stream);
-		}
-	}
-	std::cout << stream.str();
-	*/
-	if (unsolved) {
+	bool solvable = true;
+	bool ambiguous = false;
+	bool tilesSolved = step(verbose, solvable, ambiguous);
+
+	if (tilesSolved) {
 		return solve(verbose);
 	}
+
+	if (!solvable) {
+		return false;
+	}
+
+	if (ambiguous) {
+		return iterateOptions(verbose);
+	} 
 	return true;
 }
 
-bool Mesh::step(bool verbose)
+bool Mesh::iterateOptions(bool verbose)
 {
-	bool tilesEliminated = false;
-	for (auto& row : mesh) {
-		for (TileSpace& t : row) {
-			if (t.selectionMade()) {
-				continue;
-			}
-			if (t.applyRules()) {
-				tilesEliminated = true;
-			}
+	std::vector<TileSpace*> unsolved = getUnsolved();
+	for (TileSpace* t : unsolved) {
+		Mesh copy = *this;
+		std::tuple<size_t, size_t> location = t->getLocation();
+
+		TileSpace& attempt = copy.getTile(std::get<0>(location), std::get<1>(location));
+
+		attempt.makeFirstSelection();
+//		attempt.makeRandomSelection(generator);
+		if (copy.solve(verbose)) {
+			return true;
 		}
 	}
+	return false;
+}
 
-	if (!tilesEliminated) {
-		std::vector<TileSpace*> unsolved;
-		auto row = mesh.begin();
-		while (row != mesh.end()) {
-			auto column = row->begin();
-			while (column != row->end()) {
-				if (!column->selectionMade()) {
-					unsolved.push_back(&(*column));
-				}
-				column++;
+std::vector<TileSpace*> Mesh::getUnsolved()
+{
+	std::vector<TileSpace*> unsolved;
+	auto row = mesh.begin();
+	while (row != mesh.end()) {
+		auto column = row->begin();
+		while (column != row->end()) {
+			if (!column->selectionMade()) {
+				unsolved.push_back(&(*column));
 			}
-			row++;
+			column++;
 		}
+		row++;
+	}
 
-		if (unsolved.size() == 0) {
-			if (verbose) {
-				print();
+	return unsolved;
+}
+
+bool Mesh::step(bool verbose, bool& solvable, bool& ambigious)
+{
+	bool tilesEliminated = false;
+	solvable = true;
+	ambigious = false;
+	for (auto& row : mesh) {
+		for (TileSpace& t : row) {
+			enum TileSolveState solved = t.applyRules(*this);
+			switch(solved) {
+			case UNSOLVABLE:
+				solvable = false;
+				break;
+			case TILES_SOLVED:
+				tilesEliminated = true;
+				break;
+			case ALL_SOLVED:
+				break;
+			case NOTHING_TO_SOLVE:
+				ambigious = true;
+				break;
 			}
-			return false;
 		}
-		std::uniform_int_distribution<> tileSelector(0, unsolved.size());
-		const size_t selectedTileIndex = tileSelector(generator);
-		TileSpace* selectedTile = unsolved[selectedTileIndex];
-
-		std::tuple<size_t, size_t> tileLocation = selectedTile->getLocation();
-		std::cout << "Randomly setting position ";
-		std::cout << (char)('a' + std::get<1>(tileLocation));
-		std::cout << ",";
-		std::cout << std::get<0>(tileLocation) + 1;
-		std::cout << "\n";
-
-		selectedTile->makeRandomSelection(generator);
 	}
 
 	if (verbose) {
 		print();
 	}
-	return true;
+
+	if (!tilesEliminated) {
+		std::vector<TileSpace*> unsolved = getUnsolved();
+		if (unsolved.size() == 0) {
+			return false;
+		}
+	}
+
+	return tilesEliminated;
 }
 
 std::vector<TileSpace> Mesh::getRow(size_t x)
@@ -198,7 +217,7 @@ std::vector<std::vector<TileSpace>> Mesh::getConnectEight(size_t x, size_t y)
 }
 
 
-TileSpace Mesh::getTile(size_t x, size_t y)
+TileSpace& Mesh::getTile(size_t x, size_t y)
 {
 	return mesh[x][y];
 }
