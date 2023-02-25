@@ -124,3 +124,8 @@ std::tuple<size_t, size_t> TileSpace::getLocation()
 {
 	return {x, y};
 }
+
+size_t TileSpace::optionSpace()
+{
+	return options.size();
+}

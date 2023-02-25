@@ -2,6 +2,7 @@
 #include "Mesh.h"
 #include <iostream>
 #include <sstream>
+#include <algorithm>
 
 Mesh::Mesh(const std::vector<Tile>& spaceTemplate, const int x, const int y, std::mt19937& generator) : 
 	spaceTemplate(spaceTemplate),
@@ -112,6 +113,13 @@ std::vector<TileSpace*> Mesh::getUnsolved()
 		}
 		row++;
 	}
+
+	std::sort(
+		unsolved.begin(), 
+		unsolved.end(), 
+		[](TileSpace* a, TileSpace* b) {
+			return (a->optionSpace() < b->optionSpace());
+		});
 
 	return unsolved;
 }

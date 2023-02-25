@@ -39,6 +39,7 @@ public:
 	bool makeSelection(Tile& tile);
 	bool makeFirstSelection();
 	bool makeRandomSelection(std::mt19937& generator);
+	size_t optionSpace();
 };
 
 #endif
