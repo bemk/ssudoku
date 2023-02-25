@@ -78,6 +78,8 @@ bool Mesh::solve(bool verbose)
 	if (ambiguous) {
 		return iterateOptions(verbose);
 	} 
+
+	print();
 	return true;
 }
 
