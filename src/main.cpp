@@ -5,6 +5,7 @@
 
 #include "Mesh.h"
 #include "Rules/SudokuRules.h"
+#include "Rules/TileRule.h"
 
 int main(int argc, char** argv)
 {
@@ -68,6 +69,10 @@ int main(int argc, char** argv)
 	}
 
 	mesh.solve(verbose, stepped);
+
+	for (Rules::TileRule* r : ruleTemplate) {
+		delete r;
+	}
 
 	return EXIT_SUCCESS;
 }

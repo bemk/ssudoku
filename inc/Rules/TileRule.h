@@ -12,6 +12,7 @@ namespace Rules {
 class TileRule {
 public:
 	TileRule();
+	virtual ~TileRule() {};
 
 	virtual bool apply(Tile& tile, Mesh& mesh, size_t x, size_t y) = 0;
 };

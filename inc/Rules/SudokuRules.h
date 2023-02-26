@@ -9,16 +9,19 @@ namespace Sudoku {
 
 class UniqueInRow : public TileRule
 {
+public:
 	bool apply(Tile& tile, Mesh& mesh, size_t x, size_t y) override;
 };
 
 class UniqueInColumn : public TileRule
 {
+public:
 	bool apply(Tile& tile, Mesh& mesh, size_t x, size_t y) override;
 };
 
 class UniqueInSquare : public TileRule
 {
+public:
 	bool apply(Tile& tile, Mesh& mesh, size_t x, size_t y) override;
 };
 

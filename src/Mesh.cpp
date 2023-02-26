@@ -75,9 +75,9 @@ bool Mesh::solve(bool verbose, bool stepped)
 	if (stepped) {
 		std::cin.get();
 	}
-	print();
 
 	bool tilesSolved = step(verbose, solvable, ambiguous);
+	print();
 
 	if (!solvable) {
 		return false;

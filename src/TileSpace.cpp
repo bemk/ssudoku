@@ -33,9 +33,9 @@ enum TileSolveState TileSpace::applyRules(Mesh& mesh)
 		markSelected();
 		solved = ALL_SOLVED;
 	} else if (newSet.size() == 0) {
-		std::cerr << "Grid unsolvable!\n";
-		std::cerr << "[" << (char)('a'+y) << x+1 << "]\n";
-		mesh.print();
+//		std::cerr << "Grid unsolvable!\n";
+//		std::cerr << "[" << (char)('a'+y) << x+1 << "]\n";
+//		mesh.print();
 		return UNSOLVABLE;
 	}
 
