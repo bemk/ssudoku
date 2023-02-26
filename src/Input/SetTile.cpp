@@ -3,6 +3,7 @@
 #include "Input/Location.h"
 #include "Input/SetTile.h"
 #include "Input/TileValue.h"
+#include <memory>
 #include <regex>
 
 std::unique_ptr<Input::Expression> Input::SetTile::match(std::string& input __attribute__((unused))) 
@@ -10,12 +11,12 @@ std::unique_ptr<Input::Expression> Input::SetTile::match(std::string& input __at
 	return nullptr;
 }
 
-Input::Expression* Input::SetTile::left() 
+std::shared_ptr<Input::Expression> Input::SetTile::left() 
 {
 	return nullptr;
 }
 
-Input::Expression* Input::SetTile::right() 
+std::shared_ptr<Input::Expression> Input::SetTile::right() 
 {
 	return nullptr;
 }

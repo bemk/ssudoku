@@ -3,6 +3,7 @@
 #define INPUT_SET_TILE_H
 
 #include "Input/Expression.h"
+#include <memory>
 #include <regex>
 
 namespace Input {
@@ -13,8 +14,8 @@ private:
 	std::regex definition = std::regex("([a-i][0-9])([ *]=[ *])([0-9])");
 public:
 	virtual std::unique_ptr<Expression> match(std::string& input) override;
-	virtual Expression* left() override;
-	virtual Expression* right() override;
+	virtual std::shared_ptr<Expression> left() override;
+	virtual std::shared_ptr<Expression> right() override;
 	virtual bool apply(Mesh& mesh) override;
 };
 

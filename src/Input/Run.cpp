@@ -12,12 +12,12 @@ std::unique_ptr<Input::Expression> Input::Run::match(std::string& input)
 	return nullptr;
 }
 
-Input::Expression* Input::Run::left() 
+std::shared_ptr<Input::Expression> Input::Run::left() 
 {
 	return nullptr;
 }
 
-Input::Expression* Input::Run::right() 
+std::shared_ptr<Input::Expression> Input::Run::right() 
 {
 	return nullptr;
 }
