@@ -12,7 +12,7 @@ class SetTile : public Expression
 private:
 	std::regex definition = std::regex("([a-i][0-9])([ *]=[ *])([0-9])");
 public:
-	virtual bool match(std::string& input) override;
+	virtual std::unique_ptr<Expression> match(std::string& input) override;
 	virtual Expression* left() override;
 	virtual Expression* right() override;
 	virtual bool apply(Mesh& mesh) override;

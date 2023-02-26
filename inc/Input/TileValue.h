@@ -9,7 +9,7 @@ namespace Input {
 class TileValue : public Expression
 {
 public:
-	virtual bool match(std::string& input) override;
+	virtual std::unique_ptr<Expression> match(std::string& input) override;
 	virtual Expression* left() override;
 	virtual Expression* right() override;
 	virtual bool apply(Mesh& mesh) override;

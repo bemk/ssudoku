@@ -1,10 +1,15 @@
 
 #include "Input/Run.h"
+#include "Input/Expression.h"
+#include <memory>
 
 
-bool Input::Run::match(std::string& input)
+std::unique_ptr<Input::Expression> Input::Run::match(std::string& input)
 {
-	return (input.compare("run") == 0);
+	if (input.compare("run") == 0) {
+		return std::unique_ptr<Run>();
+	}
+	return nullptr;
 }
 
 Input::Expression* Input::Run::left() 
