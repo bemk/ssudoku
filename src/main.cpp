@@ -5,7 +5,7 @@
 
 #include "Mesh.h"
 #include "Rules/SudokuRules.h"
-#include "Rules/TileRule.h"
+#include "Input/Parser.h"
 
 int main(int argc, char** argv)
 {
