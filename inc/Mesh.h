@@ -24,7 +24,7 @@ public:
 	Mesh(const std::vector<Tile>& spaceTemplate, const int x, const int y, std::mt19937& generator);
 	~Mesh();
 
-	bool solve(bool verbose);
+	bool solve(bool verbose, bool stepped = false);
 	bool step(bool verbose, bool& solvable, bool& ambiguous);
 
 	void print();

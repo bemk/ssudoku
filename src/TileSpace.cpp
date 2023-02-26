@@ -1,4 +1,5 @@
 
+#include "TileSpace.h"
 #include "random"
 #include <iostream>
 
@@ -107,18 +108,36 @@ bool TileSpace::makeSelection(Tile& tile)
 	return false;
 }
 
-bool TileSpace::makeFirstSelection()
+Tile& TileSpace::eliminateTile(Tile& tile)
 {
-	return makeSelection(options[0]);
+	for (auto it = options.begin(); it != options.end(); it++) {
+		if (it->equals(tile)) {
+			options.erase(it);
+			return *it;
+		}
+	}
+	throw "No tile to select!";
 }
 
-bool TileSpace::makeRandomSelection(std::mt19937& generator)
+Tile& TileSpace::getFirstOption()
+{
+	return options[0];
+}
+
+Tile& TileSpace::makeFirstSelection()
+{
+	makeSelection(options[0]);
+	return options[0];
+}
+
+Tile& TileSpace::makeRandomSelection(std::mt19937& generator)
 {
 	const size_t optionSize = options.size() -1;
 	std::uniform_int_distribution<> distribution(0, optionSize);
 	const size_t index = distribution(generator);
 	Tile& tile = options[index];
-	return makeSelection(tile);
+	makeSelection(tile);
+	return options[0];
 }
 
 std::tuple<size_t, size_t> TileSpace::getLocation()

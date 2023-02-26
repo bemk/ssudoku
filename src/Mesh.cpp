@@ -5,6 +5,7 @@
 #include <algorithm>
 
 #include "Mesh.h"
+#include "TileSpace.h"
 
 Mesh::Mesh(const std::vector<Tile>& spaceTemplate, const int x, const int y, std::mt19937& generator) : 
 	spaceTemplate(spaceTemplate),
@@ -63,25 +64,33 @@ void Mesh::print()
 	std::cout << stream.str();
 }
 
-bool Mesh::solve(bool verbose)
+bool Mesh::solve(bool verbose, bool stepped)
 {
+	if (stepped) {
+		verbose = true;
+	}
 	bool solvable = true;
 	bool ambiguous = false;
-	bool tilesSolved = step(verbose, solvable, ambiguous);
 
-	if (tilesSolved) {
-		return solve(verbose);
+	if (stepped) {
+		std::cin.get();
 	}
+	print();
+
+	bool tilesSolved = step(verbose, solvable, ambiguous);
 
 	if (!solvable) {
 		return false;
+	}
+
+	if (tilesSolved) {
+		return solve(verbose);
 	}
 
 	if (ambiguous) {
 		return iterateOptions(verbose);
 	} 
 
-	print();
 	return true;
 }
 
@@ -89,15 +98,17 @@ bool Mesh::iterateOptions(bool verbose)
 {
 	std::vector<TileSpace*> unsolved = getUnsolved();
 	for (TileSpace* t : unsolved) {
-		Mesh copy = *this;
 		std::tuple<size_t, size_t> location = t->getLocation();
+		TileSpace& tile = getTile(std::get<0>(location), std::get<1>(location));
 
-		TileSpace& attempt = copy.getTile(std::get<0>(location), std::get<1>(location));
-
-		attempt.makeFirstSelection();
-//		attempt.makeRandomSelection(generator);
-		if (copy.solve(verbose)) {
-			return true;
+		while (tile.optionSpace() > 0) {
+			Mesh copy = *this;
+			TileSpace& attempt = copy.getTile(std::get<0>(location), std::get<1>(location));
+			Tile& tile = attempt.makeRandomSelection(generator);
+			if (copy.solve(verbose)) {
+				return true;
+			}
+			t->eliminateTile(tile);
 		}
 	}
 	return false;

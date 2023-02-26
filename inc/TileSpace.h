@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <tuple>
+#include <random>
 #include "Tile.h"
 
 class Mesh;
@@ -34,9 +35,11 @@ public:
 	std::tuple<size_t, size_t> getLocation();
 	void setLocation(size_t x, size_t y);
 	Tile getTile();
+	Tile& eliminateTile(Tile& tile);
 	bool makeSelection(Tile& tile);
-	bool makeFirstSelection();
-	bool makeRandomSelection(std::mt19937& generator);
+	Tile& getFirstOption();
+	Tile& makeFirstSelection();
+	Tile& makeRandomSelection(std::mt19937& generator);
 	size_t optionSpace();
 };
 

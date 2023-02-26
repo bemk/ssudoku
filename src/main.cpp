@@ -67,16 +67,7 @@ int main(int argc, char** argv)
 		std::cout << "Ask for data here\n";
 	}
 
-	if (stepped) {
-		bool solvable = false;
-		bool ambiguous = false;
-		while (mesh.step(verbose, solvable, ambiguous))
-		{
-			std::cin.get();
-		}
-	} else {
-		mesh.solve(verbose);
-	}
+	mesh.solve(verbose, stepped);
 
 	return EXIT_SUCCESS;
 }
