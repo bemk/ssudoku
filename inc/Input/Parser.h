@@ -9,12 +9,13 @@ namespace Input {
 
 class Parser 
 {
-    std::vector<std::string>& script;
-    std::vector<Expression*> expressions;
+	std::vector<std::string>& script;
+	std::vector<Expression*> expressions;
 
 public:
-    Parser(std::vector<std::string>& script);
-    bool run(Mesh& mesh);
+	Parser(std::vector<std::string>& script);
+	~Parser();
+	bool run(Mesh& mesh);
 };
 
 }

@@ -77,7 +77,9 @@ bool Mesh::solve(bool verbose, bool stepped)
 	}
 
 	bool tilesSolved = step(verbose, solvable, ambiguous);
-	print();
+	if (verbose) {
+		print();
+	}
 
 	if (!solvable) {
 		return false;

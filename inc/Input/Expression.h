@@ -11,10 +11,11 @@ namespace Input {
 class Expression 
 {
 public:
-    virtual bool match(std::string& input) = 0;
-    virtual Expression& left() = 0;
-    virtual Expression& right() = 0;
-    virtual bool apply(Mesh& mesh) = 0;
+	virtual ~Expression() {}
+	virtual bool match(std::string& input) = 0;
+	virtual Expression* left() = 0;
+	virtual Expression* right() = 0;
+	virtual bool apply(Mesh& mesh) = 0;
 };
 
 }
