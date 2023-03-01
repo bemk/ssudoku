@@ -16,7 +16,6 @@ private:
 	const size_t y;
 	std::mt19937& generator;
 
-	bool setTile(size_t x, size_t y, Tile& tile);
 	std::vector<TileSpace*> getUnsolved();
 
 	bool iterateOptions(bool verbose);
@@ -33,6 +32,7 @@ public:
 	std::vector<TileSpace> getColumn(size_t y);
 	std::vector<std::vector<TileSpace>> getConnectEight(size_t x, size_t y);
 
+	bool setTile(size_t x, size_t y, Tile& tile);
 	TileSpace& getTile(size_t x, size_t y);
 };
 

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <unistd.h>
+#include <vector>
 
 #include "Mesh.h"
 #include "Rules/SudokuRules.h"
@@ -10,7 +11,7 @@
 int main(int argc, char** argv)
 {
 	bool verbose = false;
-	bool stepped = false;
+	bool stepped __attribute__((unused)) = false ;
 	bool configured = false;
 	bool interactive __attribute__((unused)) = false;
 	bool sudoku = false;
@@ -68,7 +69,23 @@ int main(int argc, char** argv)
 		std::cout << "Ask for data here\n";
 	}
 
-	mesh.solve(verbose, stepped);
+	std::vector<std::string> script;
+	script.push_back("a1 = 9");
+	script.push_back("b2 = 8");
+	script.push_back("c3 = 7");
+	script.push_back("d4 = 6");
+	script.push_back("e5 = 5");
+	script.push_back("f6 = 4");
+	script.push_back("g7 = 3");
+	script.push_back("h8 = 2");
+	script.push_back("i9 = 1");
+	if (verbose) {
+		script.push_back("run verbose");
+	} else {
+		script.push_back("run");
+	}
+	Input::Parser parser (script);
+	parser.run(mesh);
 
 	for (Rules::TileRule* r : ruleTemplate) {
 		delete r;

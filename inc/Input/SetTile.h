@@ -11,12 +11,10 @@ namespace Input {
 class SetTile : public Expression
 {
 private:
-	std::regex definition = std::regex("([a-i][0-9])([ *]=[ *])([0-9])");
+	std::regex definition = std::regex("([a-i])([1-9])[ ]*=[ ]*([1-9])");
 public:
-	virtual std::unique_ptr<Expression> match(std::string& input) override;
-	virtual std::shared_ptr<Expression> left() override;
-	virtual std::shared_ptr<Expression> right() override;
-	virtual bool apply(Mesh& mesh) override;
+	virtual bool match(std::string& input) override;
+	virtual bool apply(std::string& line, Mesh& mesh) override;
 };
 
 }

@@ -4,16 +4,18 @@
 
 #include "Input/Expression.h"
 #include <memory>
+#include <string>
+#include <regex>
 
 namespace Input {
 
 class Run : public Expression
 {
+private:
+	std::regex definition = std::regex("run( v(erbose)?)?");
 public:
-	virtual std::unique_ptr<Expression> match(std::string& input) override;
-	virtual std::shared_ptr<Expression> left() override;
-	virtual std::shared_ptr<Expression> right() override;
-	virtual bool apply(Mesh& mesh) override;
+	virtual bool match(std::string& input) override;
+	virtual bool apply(std::string& input, Mesh& mesh) override;
 };
 
 }

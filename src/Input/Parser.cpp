@@ -20,12 +20,15 @@ Input::Parser::~Parser()
 	}
 }
 
-bool Input::Parser::run(Mesh &mesh __attribute__((unused)))
+bool Input::Parser::run(Mesh &mesh)
 {
 	for (std::string& s : script) {
 		bool success = false;
-		for (Input::Expression* e __attribute__((unused)) : expressions) {
-			
+		for (Input::Expression* e : expressions) {
+			if (e->match(s)) {
+				success = true;
+				e->apply(s, mesh);
+			}
 		}
 		if (!success) {
 			std::cerr << "No expression matched [" << s << "]";

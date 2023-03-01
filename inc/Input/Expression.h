@@ -13,10 +13,8 @@ class Expression
 {
 public:
 	virtual ~Expression() {}
-	virtual std::unique_ptr<Expression> match(std::string& input) = 0;
-	virtual std::shared_ptr<Expression> left() = 0;
-	virtual std::shared_ptr<Expression> right() = 0;
-	virtual bool apply(Mesh& mesh) = 0;
+	virtual bool match(std::string& input) = 0;
+	virtual bool apply(std::string& line, Mesh& mesh) = 0;
 };
 
 }
