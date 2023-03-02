@@ -1,4 +1,5 @@
 
+#include <fstream>
 #include <iostream>
 #include <cstdlib>
 #include <unistd.h>
@@ -13,9 +14,10 @@ static void printHelp(std::string program, int code)
 	std::cout << program << " usage\n";
 	std::cout << 
 "\n\
- -h\tPrint this help\n\
- -s\tGenerate a sudoku\n\
- -v\tVerbose output\n\
+ -h\t\tPrint this help\n\
+ -s\t\tPrepare sudoku tiles and rules\n\
+ -i [file]\tUse a script to prepare the mesh\n\
+ -v\t\tVerbose output\n\
  -g [seed]\tSeed for the random generator\n";
 
 	exit(code);
@@ -25,17 +27,22 @@ int main(int argc, char** argv)
 {
 	bool verbose = false;
 	bool sudoku = false;
+	std::string scriptName = "";
 	int opt = -1;
+
 	uint32_t seed = 0;
 
 	do  {
-		opt = getopt(argc, argv, "svhg:");
+		opt = getopt(argc, argv, "svhg:i:");
 		switch(opt) {
 		case 's':
 			sudoku = true;
 			break;
 		case 'v':
 			verbose = true;
+			break;
+		case 'i':
+			scriptName = std::string(optarg);
 			break;
 		case 'h':
 			printHelp(std::string(argv[0]), 0);
@@ -72,30 +79,40 @@ int main(int argc, char** argv)
 	Mesh mesh(tileTemplate, 9, 9, randomGenerator);
 
 	std::vector<std::string> script;
-	script.push_back("c1 = 3");
-	script.push_back("b1 = 9");
-	script.push_back("b2 = 8");
-	script.push_back("a3 = 7");
-	script.push_back("e2 = 5");
-	script.push_back("d3 = 8");
-	script.push_back("i1 = 2");
-	script.push_back("h3 = 4");
-	script.push_back("i3 = 9");
-	script.push_back("c5 = 6");
-	script.push_back("a6 = 9");
-	script.push_back("d6 = 5");
-	script.push_back("f5 = 3");
-	script.push_back("g4 = 1");
-	script.push_back("h6 = 7");
-	script.push_back("i6 = 8");
-	script.push_back("c7 = 9");
-	script.push_back("a9 = 1");
-	script.push_back("e7 = 6");
-	script.push_back("d8 = 4");
-	script.push_back("h7 = 1");
-	script.push_back("i7 = 4");
-	script.push_back("g8 = 2");
-	script.push_back("g9 = 5");
+	if (scriptName != "") {
+		std::ifstream scriptFile(scriptName);
+
+		std::string line = "";
+		while (std::getline(scriptFile, line)) {
+			script.push_back(line);
+		}
+
+	} else {
+		script.push_back("c1 = 3");
+		script.push_back("b1 = 9");
+		script.push_back("b2 = 8");
+		script.push_back("a3 = 7");
+		script.push_back("e2 = 5");
+		script.push_back("d3 = 8");
+		script.push_back("i1 = 2");
+		script.push_back("h3 = 4");
+		script.push_back("i3 = 9");
+		script.push_back("c5 = 6");
+		script.push_back("a6 = 9");
+		script.push_back("d6 = 5");
+		script.push_back("f5 = 3");
+		script.push_back("g4 = 1");
+		script.push_back("h6 = 7");
+		script.push_back("i6 = 8");
+		script.push_back("c7 = 9");
+		script.push_back("a9 = 1");
+		script.push_back("e7 = 6");
+		script.push_back("d8 = 4");
+		script.push_back("h7 = 1");
+		script.push_back("i7 = 4");
+		script.push_back("g8 = 2");
+		script.push_back("g9 = 5");
+	}
 
 	if (verbose) {
 		script.push_back("run verbose");
