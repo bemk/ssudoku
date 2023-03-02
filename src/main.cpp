@@ -8,25 +8,29 @@
 #include "Rules/SudokuRules.h"
 #include "Input/Parser.h"
 
+static void printHelp(std::string program, int code)
+{
+	std::cout << program << " usage\n";
+	std::cout << 
+"\n\
+ -h\tPrint this help\n\
+ -s\tGenerate a sudoku\n\
+ -v\tVerbose output\n\
+ -g [seed]\tSeed for the random generator\n";
+
+	exit(code);
+}
+
 int main(int argc, char** argv)
 {
 	bool verbose = false;
-	bool stepped __attribute__((unused)) = false ;
-	bool configured = false;
-	bool interactive __attribute__((unused)) = false;
 	bool sudoku = false;
 	int opt = -1;
 	uint32_t seed = 0;
 
 	do  {
-		opt = getopt(argc, argv, "osvchig:");
+		opt = getopt(argc, argv, "svhg:");
 		switch(opt) {
-		case 'c':
-			configured = true;
-			break;
-		case 'o':
-			stepped = true;
-			break;
 		case 's':
 			sudoku = true;
 			break;
@@ -34,13 +38,15 @@ int main(int argc, char** argv)
 			verbose = true;
 			break;
 		case 'h':
-			break;
-		case 'i':
-			interactive = true;
+			printHelp(std::string(argv[0]), 0);
 			break;
 		case 'g':
 			seed = stoi(std::string(optarg));
+			break;
+		case -1:
+			break;
 		default:
+			printHelp(std::string(argv[0]), -1);
 			break;
 		}
 	} while (opt != -1);
@@ -64,10 +70,6 @@ int main(int argc, char** argv)
 		tileTemplate.push_back(Tile("9", ruleTemplate));
 	}
 	Mesh mesh(tileTemplate, 9, 9, randomGenerator);
-
-	if (configured) {
-		std::cout << "Ask for data here\n";
-	}
 
 	std::vector<std::string> script;
 	script.push_back("c1 = 3");
