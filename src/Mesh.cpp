@@ -6,6 +6,8 @@
 
 #include "Mesh.h"
 #include "TileSpace.h"
+#include <unistd.h>
+#include <vector>
 
 Mesh::Mesh(const std::vector<Tile>& spaceTemplate, const int x, const int y, std::mt19937& generator) : 
 	spaceTemplate(spaceTemplate),
@@ -30,6 +32,20 @@ Mesh::Mesh(const std::vector<Tile>& spaceTemplate, const int x, const int y, std
 
 Mesh::~Mesh()
 {
+}
+
+std::vector<std::string> Mesh::csv()
+{
+	std::vector<std::string> data;
+	for (std::vector<TileSpace> column : mesh) {
+		std::stringstream line;
+		for (TileSpace t : column) {
+			t.print(line);
+			line << ";";
+		}
+		data.push_back(line.str());
+	}
+	return data;
 }
 
 void Mesh::print()
@@ -61,7 +77,8 @@ void Mesh::print()
 		stream << "\n";
 	}
 
-	std::cout << stream.str();
+	std::cout << stream.str() << std::endl;
+	usleep(50000);
 }
 
 bool Mesh::solve(bool verbose, bool stepped)

@@ -27,6 +27,7 @@ public:
 	bool step(bool verbose, bool& solvable, bool& ambiguous);
 
 	void print();
+	std::vector<std::string> csv();
 
 	std::vector<TileSpace> getRow(size_t x);
 	std::vector<TileSpace> getColumn(size_t y);
