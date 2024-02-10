@@ -19,8 +19,15 @@ private:
 	std::vector<TileSpace*> getUnsolved();
 
 	bool iterateOptions(bool verbose);
+	bool makeRandomSelection;
+
 public:
-	Mesh(const std::vector<Tile>& spaceTemplate, const int x, const int y, std::mt19937& generator);
+	Mesh(
+		const std::vector<Tile>& spaceTemplate,
+		const bool makeRandomSelection,
+		const int x, 
+		const int y, 
+		std::mt19937& generator);
 	~Mesh();
 
 	bool solve(bool verbose, bool stepped = false);

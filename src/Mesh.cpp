@@ -9,11 +9,17 @@
 #include <unistd.h>
 #include <vector>
 
-Mesh::Mesh(const std::vector<Tile>& spaceTemplate, const int x, const int y, std::mt19937& generator) : 
-	spaceTemplate(spaceTemplate),
-	x(x), 
-	y(y),
-	generator(generator)
+Mesh::Mesh(
+	const std::vector<Tile>& spaceTemplate, 
+	const bool makeRandomSelection,
+	const int x, 
+	const int y, 
+	std::mt19937& generator) : 
+		spaceTemplate(spaceTemplate),
+		x(x), 
+		y(y),
+		generator(generator),
+		makeRandomSelection(makeRandomSelection)
 {
 	mesh = std::vector<std::vector<TileSpace>>(
 		x,
@@ -123,7 +129,9 @@ bool Mesh::iterateOptions(bool verbose)
 		while (tile.optionSpace() > 0) {
 			Mesh copy = *this;
 			TileSpace& attempt = copy.getTile(std::get<0>(location), std::get<1>(location));
-			Tile& tile = attempt.makeRandomSelection(generator);
+			Tile& tile = (makeRandomSelection) ? 
+				attempt.makeRandomSelection(generator) : 
+				attempt.makeFirstSelection();
 			if (copy.solve(verbose)) {
 				return true;
 			}

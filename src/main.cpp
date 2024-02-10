@@ -20,6 +20,8 @@ static void printHelp(std::string program, int code)
  -i [file]\tUse a script to prepare the mesh\n\
  -m\t\tStart an interpreter (not yet implemented)\n\
  -v\t\tVerbose output\n\
+ -r\t\tSelect a Random tile when multiple paths are available\n\
+ \t\tThe default behaviour is to select the first available option and iterate\n\
  -g [seed]\tSeed for the random generator\n";
 
 	exit(code);
@@ -29,13 +31,14 @@ int main(int argc, char** argv)
 {
 	bool verbose = false;
 	bool sudoku = false;
+	bool makeRandomSelection = false;
 	std::string scriptName = "";
 	int opt = -1;
 
 	uint32_t seed = 0;
 
 	do  {
-		opt = getopt(argc, argv, "svhg:i:m");
+		opt = getopt(argc, argv, "svhg:i:mr");
 		switch(opt) {
 		case 's':
 			sudoku = true;
@@ -56,6 +59,8 @@ int main(int argc, char** argv)
 			std::cout << "Argument not yet implemented!\n";
 			printHelp(std::string(argv[0]), -1);
 			break;
+		case 'r':
+			break;
 		case -1:
 			break;
 		default:
@@ -72,7 +77,7 @@ int main(int argc, char** argv)
 		tileTemplate = sudokuTemplate(ruleTemplate);
 	}
 
-	Mesh mesh(tileTemplate, 9, 9, randomGenerator);
+	Mesh mesh(tileTemplate, makeRandomSelection, 9, 9, randomGenerator);
 
 	std::vector<std::string> script;
 	if (scriptName != "") {
